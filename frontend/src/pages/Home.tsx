@@ -1,7 +1,10 @@
 import { generateMnemonic, mnemonicToSeedSync } from "bip39";
+import { Buffer } from "buffer";
 import { useState } from "react";
 
 const Home = () => {
+  // @ts-ignore
+  window.Buffer = Buffer;
   const handleOnClickCreateAWallet = () => {
     setComponent(2);
     const mnemonic = generateMnemonic();
