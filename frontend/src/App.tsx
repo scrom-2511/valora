@@ -5,8 +5,7 @@ import Home from './pages/Home'
 function App() {
   return (
     <Router>
-      {/* Make this relative so children absolute elements can position inside it */}
-      <div className="relative bg-primary min-h-screen w-screen overflow-hidden">
+      <div className="bg-primary h-screen w-screen">
         <Routes>
           <Route path="/" element={<Home />} />
         </Routes>
