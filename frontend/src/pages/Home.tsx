@@ -2,7 +2,13 @@ import { generateMnemonic, mnemonicToSeedSync } from "bip39";
 import { useState } from "react";
 
 const Home = () => {
-  
+  const handleOnClickCreateAWallet = () => {
+    setComponent(2);
+    const mnemonic = generateMnemonic();
+    console.log(mnemonic);
+    const seed = mnemonicToSeedSync(mnemonic);
+    console.log(seed);
+  };
 
   const [component, setComponent] = useState<number>(1);
   return (
