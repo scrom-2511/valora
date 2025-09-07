@@ -45,7 +45,37 @@ const Home = () => {
       )}
       {component === 2 && (
         <div className="h-full w-full flex flex-col items-center justify-center z-50 relative">
-          
+          <div className="text-blue-500 text-3xl p-5 pl-10 font-bold font-poppins mb-5">
+            YOUR SECRET PHASE
+          </div>
+          <div className="h-[400px] w-[800px] rounded-2xl backdrop-blur-xl border border-blue-400/30 shadow-lg shadow-black/40 grid grid-cols-3 grid-rows-4 p-5">
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+              <h1 className="text-blue-500 self-center text-center font-bold text-sm">THIS</h1>
+            </div>
+          <label className="text-[#ebebebcc] m-3 flex items-center">
+            <input
+              type="checkbox"
+              className=" w-4 h-4 m-1 bg-red-500 accent-blue-500"
+            />
+            <span className="m-1">I have saved THIS text with me</span>
+          </label>
+          <button
+            className="bg-blue-600 w-auto px-15 text-[#ebebebcc] rounded-2xl h-10 drop-shadow-[0_0_10px_rgba(0,97,255,0.7)] hover:cursor-pointer hover:scale-105 transition-transform duration-200"
+            onClick={handleOnClickCreateAWallet}
+          >
+            <span>CREATE A WALLET</span>
+            <img src="" alt="" />
+          </button>
         </div>
       )}
       <div className="absolute h-60 w-60 bg-blue-500 rounded-full blur-[180px] top-60 left-100 z-0"></div>
