@@ -16,10 +16,8 @@ const Home = () => {
   const [component, setComponent] = useState<number>(1);
   return (
     <div className="h-full w-full">
-      <div className="absolute h-60 w-60 bg-blue-500 rounded-full blur-[200px] top-60 left-100 z-0"></div>
-      <div className="absolute h-60 w-60 bg-blue-500 rounded-full blur-[200px] bottom-60 right-100 z-0"></div>
       {component === 1 && (
-        <div className="h-full w-full">
+        <div className="h-full w-full z-50 relative">
           <div className="h-full w-full grid grid-rows-[300px_auto]">
             <div className="text-center self-end h-full pt-40">
               <h1 className="font-poppins font-extrabold text-8xl bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent tracking-tight pt-20 drop-shadow-[0_0_10px_rgba(0,97,255,0.59)]">
@@ -46,10 +44,12 @@ const Home = () => {
         </div>
       )}
       {component === 2 && (
-        <div className="h-full w-full flex items-center justify-center z-30 relative">
-          <div className="h-[400px] w-[800px] rounded-2xl backdrop-blur-xl border border-blue-400/30 shadow-lg shadow-black/40"></div>
+        <div className="h-full w-full flex flex-col items-center justify-center z-50 relative">
+          
         </div>
       )}
+      <div className="absolute h-60 w-60 bg-blue-500 rounded-full blur-[180px] top-60 left-100 z-0"></div>
+      <div className="absolute h-60 w-60 bg-blue-500 rounded-full blur-[180px] bottom-60 right-100 z-0"></div>
     </div>
   );
 };
