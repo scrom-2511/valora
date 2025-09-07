@@ -6,7 +6,7 @@ import YourWallets from './pages/YourWallets'
 function App() {
   return (
     <Router>
-      <div className="bg-primary h-screen w-screen">
+      <div className="bg-primary h-screen w-screen flex justify-center">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/yourwallets" element={<YourWallets />} />

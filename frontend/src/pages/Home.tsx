@@ -22,6 +22,7 @@ const Home = () => {
   }, [account])
 
   const handleOnClickCreateAWallet2 = async () => {
+    navigate("/yourwallets")
     const seed = await mnemonicToSeed(mnemonicsArr.join(" "))
     console.log(seed)
     const path = `m/44'/501'/${currentIndex}'/0'`;
