@@ -6,13 +6,9 @@ const YourWallets = () => {
   return (
     <div className="h-full w-[1200px] grid grid-rows-[150px_auto]">
       <div className="mx-20 mt-10">
-        <h1 className="text-[#dcdcdc] text-3xl py-5 font-bold font-poppins mb-5">
+        <h1 className="text-4xl py-5 font-extrabold font-poppins mb-5 bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent tracking-tight drop-shadow-[0_0_10px_rgba(0,97,255,0.59)]">
           YOUR WALLETS
         </h1>
-        <div className="flex">
-          <h1>SOLANA</h1>
-          <h1>ETH</h1>
-        </div>
       </div>
       <div className="">
         {account.map((acc)=><div className="relative h-[400px] w-auto overflow-hidden mx-20 z-50">
