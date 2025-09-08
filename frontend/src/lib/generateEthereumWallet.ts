@@ -11,6 +11,6 @@ export const generateEthereumWallet = async (mnemonicsArr: Array<string>, curren
     const child = hdNode.derivePath(derivationPath);
     const privateKey = child.privateKey
     const wallet = new Wallet(privateKey);
-    const account: Account = {amount: 50, privateKey, publicKey: wallet.address, walletName: WalletName.ethereum, walletIconLocation: WalletImgLocation.ethereum, accountNumber: currentIndex}
+    const account: Account = {amount: 50, privateKey, publicKey: wallet.address, walletName: WalletName.ethereum, walletIconLocation: WalletImgLocation.ethereum, accountNumber: currentIndex, accountName:`New Account ${currentIndex}`}
     addAccount(account)
 }

@@ -1,21 +1,22 @@
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
-import type { WalletImgLocation, WalletName } from "../types/types"
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { WalletImgLocation, WalletName } from "../types/types";
 
 export type Account = {
-  accountNumber: number
-  publicKey: string
-  privateKey: string
-  amount: number
-  walletName: WalletName
-  walletIconLocation: WalletImgLocation
-}
+  accountName: string;
+  accountNumber: number;
+  publicKey: string;
+  privateKey: string;
+  amount: number;
+  walletName: WalletName;
+  walletIconLocation: WalletImgLocation;
+};
 
 export type AccountStore = {
-  account: Account[]
-  addAccount: (account: Account) => void
-  setAccount: (account: Account[]) => void
-}
+  account: Account[];
+  addAccount: (account: Account) => void;
+  setAccount: (account: Account[]) => void;
+};
 
 export const useAccountStore = create<AccountStore>()(
   persist(
@@ -34,12 +35,12 @@ export const useAccountStore = create<AccountStore>()(
       name: "account-storage", // localStorage key
     }
   )
-)
+);
 
 type CurrentIndexStore = {
-  currentIndex: number
-  setCurrentIndex: (index: number) => void
-}
+  currentIndex: number;
+  setCurrentIndex: (index: number) => void;
+};
 
 export const useCurrentIndexStore = create<CurrentIndexStore>()(
   persist(
@@ -54,4 +55,4 @@ export const useCurrentIndexStore = create<CurrentIndexStore>()(
       name: "current-index-storage", // localStorage key
     }
   )
-)
+);

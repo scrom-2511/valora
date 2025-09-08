@@ -28,7 +28,7 @@ const YourWallets = () => {
       <div className="mx-20 mt-10">
         <div className="flex py-3 justify-between gap-20">
           <h1 className="text-4xl font-extrabold font-poppins mb-5 bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent tracking-tight drop-shadow-[0_0_10px_rgba(0,97,255,0.59)]">
-            YOUR WALLETS
+            {account[Number(accID)*2].accountName}
           </h1>
 
           <button
