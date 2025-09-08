@@ -17,16 +17,19 @@ const Home = () => {
     setMnemonicsArr(mnemonic.split(" "));
   };
 
-  useEffect(()=>{
-    console.log(account)
-    localStorage.setItem("wallets", JSON.stringify(account))
-  }, [account])
-
   const handleOnClickCreateAWallet2 = async () => {
-    await generateSolanaWallet(mnemonicsArr, currentIndex, addAccount);
-    await generateEthereumWallet(mnemonicsArr, currentIndex, addAccount);
-    navigate(`/yourwallets/${currentIndex}`)
-    setCurrentIndex(currentIndex+1);
+    await generateSolanaWallet(
+      localStorage.getItem("mnemonic")?.split(" ") as Array<string>,
+      currentIndex,
+      addAccount
+    );
+    await generateEthereumWallet(
+      localStorage.getItem("mnemonic")?.split(" ") as Array<string>,
+      currentIndex,
+      addAccount
+    );
+    navigate(`/yourwallets/${currentIndex}`);
+    setCurrentIndex(currentIndex + 1);
   }
 
   const [component, setComponent] = useState<number>(1);

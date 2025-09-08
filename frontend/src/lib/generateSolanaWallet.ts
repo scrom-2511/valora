@@ -8,13 +8,9 @@ import { WalletImgLocation, WalletName } from "../types/types";
 
 export const generateSolanaWallet = async (mnemonicsArr: Array<string>, currentIndex: number, addAccount: (account: Account) => void) =>{
     const seed = await mnemonicToSeed(mnemonicsArr.join(" "))
-    console.log(seed)
     const path = `m/44'/501'/${currentIndex}'/0'`;
-    console.log(path)
     const derivedSeed = derivePath(path, seed.toString()).key
-    console.log(derivedSeed)
     const secret = nacl.sign.keyPair.fromSeed(derivedSeed)
-    console.log(secret)
     const {publicKey, secretKey} = Keypair.fromSecretKey(secret.secretKey)
     const account: Account = {privateKey:bs58.encode(secretKey), publicKey: publicKey.toBase58(), amount: 0, walletName:WalletName.solana, walletIconLocation: WalletImgLocation.solana, accountNumber: currentIndex}
     addAccount(account)

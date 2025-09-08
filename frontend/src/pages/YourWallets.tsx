@@ -23,10 +23,6 @@ const YourWallets = () => {
     navigate(`/yourwallets/${currentIndex}`);
     setCurrentIndex(currentIndex + 1);
   };
-  useEffect(() => {
-    console.log(account);
-    localStorage.setItem("wallets", JSON.stringify(account));
-  }, [account]);
   return (
     <div className="h-full w-full grid grid-rows-[130px_auto] justify-center">
       <div className="mx-20 mt-10">
