@@ -1,11 +1,7 @@
-import { generateMnemonic, mnemonicToSeed } from "bip39";
+import { generateMnemonic } from "bip39";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { derivePath } from "ed25519-hd-key";
-import nacl from "tweetnacl";
-import { Keypair } from "@solana/web3.js";
-import bs58 from "bs58";
-import { useAccountStore, type Account } from "../zustand/store";
+import { useAccountStore } from "../zustand/store";
 import { generateSolanaWallet } from "../lib/generateSolanaWallet";
 import { generateEthereumWallet } from "../lib/generateEthereumWallet";
 

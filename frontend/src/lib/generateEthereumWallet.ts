@@ -1,8 +1,8 @@
 import { mnemonicToSeed } from "bip39"
 import { Wallet } from "ethers";
 import { HDNodeWallet } from "ethers";
-import { useAccountStore, type Account } from "../zustand/store";
-import { WalletName } from "../types/types";
+import { type Account } from "../zustand/store";
+import { WalletImgLocation, WalletName } from "../types/types";
 
 export const generateEthereumWallet = async (mnemonicsArr: Array<string>, currentIndex: number, addAccount: (account: Account) => void) => {
     const seed = await mnemonicToSeed(mnemonicsArr.join(" "));
@@ -15,6 +15,6 @@ export const generateEthereumWallet = async (mnemonicsArr: Array<string>, curren
     console.log("The private key is: ", privateKey)
     const wallet = new Wallet(privateKey);
     console.log(wallet)
-    const account: Account = {amount: 50, privateKey, publicKey: wallet.address, walletName: WalletName.ethereum}
+    const account: Account = {amount: 50, privateKey, publicKey: wallet.address, walletName: WalletName.ethereum, walletIconLocation: WalletImgLocation.ethereum}
     addAccount(account)
 }

@@ -1,9 +1,11 @@
 import {create} from "zustand"
+import type { WalletImgLocation, WalletName } from "../types/types"
 export type Account = {
     publicKey: string,
     privateKey: string,
     amount: number,
-    walletName: string
+    walletName: WalletName,
+    walletIconLocation: WalletImgLocation
 }
 export type AccountStore = {
     account: Account[]

@@ -4,7 +4,7 @@ import { derivePath } from "ed25519-hd-key";
 import nacl from "tweetnacl";
 import bs58 from "bs58"
 import { type Account } from "../zustand/store";
-import { WalletName } from "../types/types";
+import { WalletImgLocation, WalletName } from "../types/types";
 
 export const generateSolanaWallet = async (mnemonicsArr: Array<string>, currentIndex: number, addAccount: (account: Account) => void) =>{
     const seed = await mnemonicToSeed(mnemonicsArr.join(" "))
@@ -16,6 +16,6 @@ export const generateSolanaWallet = async (mnemonicsArr: Array<string>, currentI
     const secret = nacl.sign.keyPair.fromSeed(derivedSeed)
     console.log(secret)
     const {publicKey, secretKey} = Keypair.fromSecretKey(secret.secretKey)
-    const account: Account = {privateKey:bs58.encode(secretKey), publicKey: publicKey.toBase58(), amount: 0, walletName:WalletName.solana}
+    const account: Account = {privateKey:bs58.encode(secretKey), publicKey: publicKey.toBase58(), amount: 0, walletName:WalletName.solana, walletIconLocation: WalletImgLocation.solana}
     addAccount(account)
 }

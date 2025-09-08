@@ -1,23 +1,28 @@
-import React from "react";
 import { useAccountStore } from "../zustand/store";
 
 const YourWallets = () => {
   const { account } = useAccountStore();
   return (
-    <div className="h-full w-[1200px] grid grid-rows-[150px_auto]">
+    <div className="h-full w-full grid grid-rows-[130px_auto] justify-center">
       <div className="mx-20 mt-10">
-        <h1 className="text-4xl py-5 font-extrabold font-poppins mb-5 bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent tracking-tight drop-shadow-[0_0_10px_rgba(0,97,255,0.59)]">
-          YOUR WALLETS
-        </h1>
+        <div className="flex py-3 justify-between">
+          <h1 className="text-4xl font-extrabold font-poppins mb-5 bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent tracking-tight drop-shadow-[0_0_10px_rgba(0,97,255,0.59)]">
+            YOUR WALLETS
+          </h1>
+
+          <button className=" h-10 w-auto bg-gradient-to-b from-blue-400 to-blue-700 text-white px-3 rounded-xl text-sm font-bold hover:cursor-pointer hover:transition hover:duration-300 hover:scale-110">
+            ADD ACCOUNT
+          </button>
+        </div>
       </div>
-      <div className="h-full overflow-y-scroll gap-10">
+      <div className="h-full w-full gap-10 overflow-y-scroll">
         {account.map((acc) => (
-          <div className="relative h-auto w-auto overflow-hidden mx-20 z-50 mb-10">
+          <div className="relative h-auto w-auto max-w-[1200px] overflow-hidden mx-20 z-50 mb-10">
             <div className="absolute h-[200px] w-full bg-blue-500 rounded-full blur-[170px] left-1/2 transform -translate-x-1/2 top-1/3 -translate-y-1/2 z-0"></div>
             <div className="h-auto w-auto rounded-2xl backdrop-blur-xl border border-blue-400/30 shadow-lg shadow-black/40 p-10">
               <div className="text-2xl text-[#dcdcdc] font-bold px-3 flex items-center gap-3 mb-5">
                 <img
-                  src="/images/solana-logo.png"
+                  src={acc.walletIconLocation}
                   alt=""
                   className="h-10 w-10"
                 />
