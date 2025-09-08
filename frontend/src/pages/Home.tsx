@@ -7,11 +7,12 @@ import { Keypair } from "@solana/web3.js";
 import bs58 from "bs58";
 import { useAccountStore, type Account } from "../zustand/store";
 import { generateSolanaWallet } from "../lib/generateSolanaWallet";
+import { generateEthereumWallet } from "../lib/generateEthereumWallet";
 
 
 const Home = () => {
   const navigate = useNavigate();
-  const {account,addAccount} = useAccountStore();
+  const {account, addAccount} = useAccountStore();
   const handleOnClickCreateAWallet = () => {
     setComponent(2);
     const mnemonic = generateMnemonic();
@@ -20,12 +21,13 @@ const Home = () => {
 
   useEffect(()=>{
     console.log(account)
+    localStorage.setItem("wallets", JSON.stringify(account))
   }, [account])
 
   const handleOnClickCreateAWallet2 = async () => {
+    await generateSolanaWallet(mnemonicsArr, currentIndex, addAccount);
+    await generateEthereumWallet(mnemonicsArr, currentIndex, addAccount);
     navigate("/yourwallets")
-    await generateSolanaWallet(mnemonicsArr, currentIndex);
-    
     setCurrentIndex((prev)=>prev+1);
   }
 
