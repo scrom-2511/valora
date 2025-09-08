@@ -2,7 +2,8 @@ import {create} from "zustand"
 export type Account = {
     publicKey: string,
     privateKey: string,
-    amount: number
+    amount: number,
+    walletName: string
 }
 export type AccountStore = {
     account: Account[]

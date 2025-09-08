@@ -13,3 +13,7 @@
     --font-poppins: "Poppins", sans-serif;
     --shadow-mainButton :"0px_0px_10px_5px_rgba";
 }
+
+.overflow-y-scroll::-webkit-scrollbar{
+    display: none;
+}

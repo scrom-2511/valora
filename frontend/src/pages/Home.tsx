@@ -6,6 +6,7 @@ import nacl from "tweetnacl";
 import { Keypair } from "@solana/web3.js";
 import bs58 from "bs58";
 import { useAccountStore, type Account } from "../zustand/store";
+import { generateSolanaWallet } from "../lib/generateSolanaWallet";
 
 
 const Home = () => {
@@ -23,17 +24,9 @@ const Home = () => {
 
   const handleOnClickCreateAWallet2 = async () => {
     navigate("/yourwallets")
-    const seed = await mnemonicToSeed(mnemonicsArr.join(" "))
-    console.log(seed)
-    const path = `m/44'/501'/${currentIndex}'/0'`;
-    console.log(path)
-    const derivedSeed = derivePath(path, seed.toString()).key
-    console.log(derivedSeed)
-    const secret = nacl.sign.keyPair.fromSeed(derivedSeed)
-    console.log(secret)
-    const {publicKey, secretKey} = Keypair.fromSecretKey(secret.secretKey)
-    const account: Account = {privateKey:bs58.encode(secretKey), publicKey: publicKey.toBase58(), amount: 0}
-    addAccount(account)
+    await generateSolanaWallet(mnemonicsArr, currentIndex);
+    
+    setCurrentIndex((prev)=>prev+1);
   }
 
   const [component, setComponent] = useState<number>(1);
@@ -43,8 +36,8 @@ const Home = () => {
   return (
     <div className="h-full w-full">
       {component === 1 && (
-        <div className="h-full w-full z-50 relative">
-          <div className="h-full w-full grid grid-rows-[300px_auto]">
+        <div className="h-full w-full z-50">
+          <div className="h-full w-full flex flex-col">
             <div className="text-center self-end h-full pt-40">
               <h1 className="font-poppins font-extrabold text-8xl bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent tracking-tight pt-20 drop-shadow-[0_0_10px_rgba(0,97,255,0.59)]">
                 VALORA
@@ -55,13 +48,16 @@ const Home = () => {
             </div>
             <div className="flex flex-col items-center self-center gap-5 h-full pt-52">
               <button
-                className="bg-blue-600 w-auto px-15 text-[#ebebebcc] rounded-2xl h-10 drop-shadow-[0_0_10px_rgba(0,97,255,0.7)] hover:cursor-pointer hover:scale-105 transition-transform duration-200"
+                className="bg-blue-600 h-16 w-auto px-20 text-[#ebebebcc] rounded-2xl drop-shadow-[0_0_10px_rgba(0,97,255,0.7)] hover:cursor-pointer hover:scale-105 transition-transform duration-200"
                 onClick={handleOnClickCreateAWallet}
               >
                 <span>CREATE A WALLET</span>
                 <img src="" alt="" />
               </button>
-              <button className="bg-blue-600 w-auto px-15 text-[#ebebebcc] rounded-2xl h-10 drop-shadow-[0_0_10px_rgba(0,97,255,0.7)] hover:cursor-pointer hover:scale-105 transition-transform duration-200">
+              <button
+                className="bg-blue-600 h-16 w-auto px-20 text-[#ebebebcc] rounded-2xl drop-shadow-[0_0_10px_rgba(0,97,255,0.7)] hover:cursor-pointer hover:scale-105 transition-transform duration-200"
+                onClick={handleOnClickCreateAWallet}
+              >
                 <span>IMPORT A WALLET</span>
                 <img src="" alt="" />
               </button>
