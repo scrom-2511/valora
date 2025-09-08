@@ -1,7 +1,7 @@
 import { generateMnemonic } from "bip39";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAccountStore } from "../zustand/store";
+import { useAccountStore, useCurrentIndexStore } from "../zustand/store";
 import { generateSolanaWallet } from "../lib/generateSolanaWallet";
 import { generateEthereumWallet } from "../lib/generateEthereumWallet";
 
@@ -9,9 +9,11 @@ import { generateEthereumWallet } from "../lib/generateEthereumWallet";
 const Home = () => {
   const navigate = useNavigate();
   const {account, addAccount} = useAccountStore();
+  const {currentIndex, setCurrentIndex} = useCurrentIndexStore();
   const handleOnClickCreateAWallet = () => {
     setComponent(2);
     const mnemonic = generateMnemonic();
+    localStorage.setItem("mnemonic", mnemonic)
     setMnemonicsArr(mnemonic.split(" "));
   };
 
@@ -23,14 +25,13 @@ const Home = () => {
   const handleOnClickCreateAWallet2 = async () => {
     await generateSolanaWallet(mnemonicsArr, currentIndex, addAccount);
     await generateEthereumWallet(mnemonicsArr, currentIndex, addAccount);
-    navigate("/yourwallets")
-    setCurrentIndex((prev)=>prev+1);
+    navigate(`/yourwallets/${currentIndex}`)
+    setCurrentIndex(currentIndex+1);
   }
 
   const [component, setComponent] = useState<number>(1);
   const [mnemonicsArr, setMnemonicsArr] = useState<Array<string>>([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
   return (
     <div className="h-full w-full">
       {component === 1 && (

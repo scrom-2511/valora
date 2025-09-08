@@ -16,6 +16,6 @@ export const generateSolanaWallet = async (mnemonicsArr: Array<string>, currentI
     const secret = nacl.sign.keyPair.fromSeed(derivedSeed)
     console.log(secret)
     const {publicKey, secretKey} = Keypair.fromSecretKey(secret.secretKey)
-    const account: Account = {privateKey:bs58.encode(secretKey), publicKey: publicKey.toBase58(), amount: 0, walletName:WalletName.solana, walletIconLocation: WalletImgLocation.solana}
+    const account: Account = {privateKey:bs58.encode(secretKey), publicKey: publicKey.toBase58(), amount: 0, walletName:WalletName.solana, walletIconLocation: WalletImgLocation.solana, accountNumber: currentIndex}
     addAccount(account)
 }

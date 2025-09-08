@@ -15,6 +15,6 @@ export const generateEthereumWallet = async (mnemonicsArr: Array<string>, curren
     console.log("The private key is: ", privateKey)
     const wallet = new Wallet(privateKey);
     console.log(wallet)
-    const account: Account = {amount: 50, privateKey, publicKey: wallet.address, walletName: WalletName.ethereum, walletIconLocation: WalletImgLocation.ethereum}
+    const account: Account = {amount: 50, privateKey, publicKey: wallet.address, walletName: WalletName.ethereum, walletIconLocation: WalletImgLocation.ethereum, accountNumber: currentIndex}
     addAccount(account)
 }
