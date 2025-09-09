@@ -1,14 +1,16 @@
 import { generateMnemonic } from "bip39";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAccountStore, useCurrentIndexStore, type Account } from "../zustand/store";
+import { useAccountStore, useCurrentIndexStore, useTotalTokenStore, type Account } from "../zustand/store";
 import { generateSolanaWallet } from "../lib/generateSolanaWallet";
 import { generateEthereumWallet } from "../lib/generateEthereumWallet";
+import { WalletName } from "../types/types";
 
 
 const Home = () => {
   const navigate = useNavigate();
   const {account, addAccount} = useAccountStore();
+  const {addToken} = useTotalTokenStore();
   const {currentIndex, setCurrentIndex} = useCurrentIndexStore();
   const handleOnClickCreateAWallet = () => {
     setComponent(2);
@@ -51,14 +53,14 @@ const Home = () => {
       accountName: "New Account",
       accountNumber: currentIndex,
       accountDetails: {
-        Solana: {
+        [WalletName.solana]: {
           amount: amountSol,
           privateKey: privateKeySol,
           publicKey: publicKeySol,
           walletIconLocation: walletIconLocationSol,
           walletName: walletNameSol,
         },
-        Ethereum: {
+        [WalletName.ethereum]: {
           amount: amountEth,
           privateKey: privateKeyEth,
           publicKey: publicKeyEth,
@@ -67,7 +69,7 @@ const Home = () => {
         },
       },
     };
-
+    addToken(amountSol, amountEth)
     addAccount(account)
     navigate(`/yourwallets/${currentIndex}`);
     setCurrentIndex(currentIndex + 1);

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { WalletImgLocation, WalletName } from "../types/types";
+import { WalletName, type WalletImgLocation } from "../types/types";
 
 // Define your Wallet type
 export type Wallet = {
@@ -20,6 +20,7 @@ export type Account = {
   };
 };
 
+
 // Store definition
 export type AccountStore = {
   account: Account[];
@@ -36,15 +37,15 @@ export const useAccountStore = create<AccountStore>()(
         set((state) => ({
           account: [...state.account, newAccount],
         })),
-      setAccount: (accounts) =>
+        setAccount: (accounts) =>
         set(() => ({
           account: accounts,
         })),
-    }),
-    {
-      name: "account-storage", // localStorage key
-    }
-  )
+      }),
+      {
+        name: "account-storage", // localStorage key
+      }
+    )
 );
 
 
@@ -67,3 +68,32 @@ export const useCurrentIndexStore = create<CurrentIndexStore>()(
     }
   )
 );
+
+type TotalTokensStore = {
+  [WalletName.solana]: number,
+  [WalletName.ethereum]: number,
+  setToken: (token1: number, token2: number) => void
+  addToken: (token1:number , token2: number) => void
+}
+
+export const useTotalTokenStore = create<TotalTokensStore>()(
+  persist(
+    (set) => ({
+      [WalletName.solana]: 0,
+      [WalletName.ethereum]: 0,
+      setToken: (token1, token2)=>
+        set(()=>({
+          [WalletName.solana]: token1,
+          [WalletName.ethereum]: token2
+        })),
+      addToken: (token1, token2) => 
+        set((state)=>({
+          [WalletName.solana]: state[WalletName.solana] + token1,
+          [WalletName.ethereum]: state[WalletName.ethereum] + token2
+        }))
+    }),
+    {
+      name: "total-token-store"
+    }
+  )
+)
