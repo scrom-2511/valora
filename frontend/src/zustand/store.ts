@@ -2,9 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { WalletImgLocation, WalletName } from "../types/types";
 
-export type Account = {
-  accountName: string;
-  accountNumber: number;
+// Define your Wallet type
+export type Wallet = {
   publicKey: string;
   privateKey: string;
   amount: number;
@@ -12,12 +11,23 @@ export type Account = {
   walletIconLocation: WalletImgLocation;
 };
 
+// Update Account to include multiple wallets under accountDetails
+export type Account = {
+  accountName: string;
+  accountNumber: number;
+  accountDetails: {
+    [key in WalletName]: Wallet; 
+  };
+};
+
+// Store definition
 export type AccountStore = {
   account: Account[];
   addAccount: (account: Account) => void;
-  setAccount: (account: Account[]) => void;
+  setAccount: (accounts: Account[]) => void;
 };
 
+// Store implementation using Zustand with persist
 export const useAccountStore = create<AccountStore>()(
   persist(
     (set) => ({
@@ -36,6 +46,7 @@ export const useAccountStore = create<AccountStore>()(
     }
   )
 );
+
 
 type CurrentIndexStore = {
   currentIndex: number;

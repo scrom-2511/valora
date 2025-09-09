@@ -1,7 +1,7 @@
 import { generateMnemonic } from "bip39";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAccountStore, useCurrentIndexStore } from "../zustand/store";
+import { useAccountStore, useCurrentIndexStore, type Account } from "../zustand/store";
 import { generateSolanaWallet } from "../lib/generateSolanaWallet";
 import { generateEthereumWallet } from "../lib/generateEthereumWallet";
 
@@ -18,16 +18,57 @@ const Home = () => {
   };
 
   const handleOnClickCreateAWallet2 = async () => {
-    await generateSolanaWallet(
-      localStorage.getItem("mnemonic")?.split(" ") as Array<string>,
-      currentIndex,
-      addAccount
-    );
-    await generateEthereumWallet(
-      localStorage.getItem("mnemonic")?.split(" ") as Array<string>,
-      currentIndex,
-      addAccount
-    );
+    const mnemonic = localStorage.getItem("mnemonic");
+
+    // Input validation: check if mnemonic exists and is valid
+    if (!mnemonic) {
+      console.error("Mnemonic not found in localStorage.");
+      return;
+    }
+
+    const mnemonicArray = mnemonic.split(" ");
+    if (!Array.isArray(mnemonicArray) || mnemonicArray.length === 0) {
+      console.error("Invalid mnemonic format.");
+      return;
+    }
+    const {
+      amount: amountSol,
+      privateKey: privateKeySol,
+      publicKey: publicKeySol,
+      walletName: walletNameSol,
+      walletIconLocation: walletIconLocationSol,
+    } = await generateSolanaWallet(mnemonicArray, currentIndex);
+
+    // Generate Ethereum wallet using mnemonic and current index
+    const {
+      amount: amountEth,
+      privateKey: privateKeyEth,
+      publicKey: publicKeyEth,
+      walletName: walletNameEth,
+      walletIconLocation: walletIconLocationEth,
+    } = await generateEthereumWallet(mnemonicArray, currentIndex);
+    const account: Account = {
+      accountName: "New Account",
+      accountNumber: currentIndex,
+      accountDetails: {
+        Solana: {
+          amount: amountSol,
+          privateKey: privateKeySol,
+          publicKey: publicKeySol,
+          walletIconLocation: walletIconLocationSol,
+          walletName: walletNameSol,
+        },
+        Ethereum: {
+          amount: amountEth,
+          privateKey: privateKeyEth,
+          publicKey: publicKeyEth,
+          walletIconLocation: walletIconLocationEth,
+          walletName: walletNameEth,
+        },
+      },
+    };
+
+    addAccount(account)
     navigate(`/yourwallets/${currentIndex}`);
     setCurrentIndex(currentIndex + 1);
   }
