@@ -1,21 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  useAccountStore,
-  useCurrentIndexStore,
-  useTotalTokenStore,
-  type Account,
-  type Wallet,
-} from "../zustand/store";
+import { useAccountStore, useCurrentIndexStore, useTotalTokenStore, type Account, type Wallet } from "../zustand/store";
 import { generateSolanaWallet } from "../lib/generateSolanaWallet";
 import { generateEthereumWallet } from "../lib/generateEthereumWallet";
 import React, { useEffect, useState } from "react";
-import {
-  clusterApiUrl,
-  Connection,
-  LAMPORTS_PER_SOL,
-  PublicKey,
-  sendAndConfirmTransaction,
-} from "@solana/web3.js";
+import { clusterApiUrl, Connection, LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction } from "@solana/web3.js";
 
 /**
  * Renders the YourWallets component to view and add accounts.
@@ -101,8 +89,7 @@ const YourWallets = () => {
     setCurrentIndex(currentIndex + 1);
   };
 
-  const [showAddBalanceComponent, setShowAddBalanceComponent] =
-    useState<boolean>(false);
+  const [selectedComponent, setSelectedComponent] = useState<string>("");
 
   // ------------------------
   // Render
@@ -130,53 +117,45 @@ const YourWallets = () => {
         {account.map(
           (acc, index) =>
             Number(accID) === acc.accountNumber &&
-            Object.entries(acc.accountDetails).map(
-              ([walletType, walletDetails]) => (
-                <div
-                  key={`${index}-${walletType}`}
-                  className="relative h-auto w-auto max-w-[1200px] overflow-hidden mx-20 z-50 mb-10"
-                >
-                  {/* Background Blur Effect */}
-                  <div className="absolute h-[200px] w-full bg-blue-500 rounded-full blur-[170px] left-1/2 transform -translate-x-1/2 top-1/3 -translate-y-1/2 z-0"></div>
+            Object.entries(acc.accountDetails).map(([walletType, walletDetails]) => (
+              <div key={`${index}-${walletType}`} className="relative h-auto w-auto max-w-[1200px] overflow-hidden mx-20 z-50 mb-10">
+                {/* Background Blur Effect */}
+                <div className="absolute h-[200px] w-full bg-blue-500 rounded-full blur-[170px] left-1/2 transform -translate-x-1/2 top-1/3 -translate-y-1/2 z-0"></div>
 
-                  {/* Wallet Card */}
-                  <div className="h-auto min-w-[1000px] rounded-2xl backdrop-blur-xl border border-blue-400/30 shadow-lg shadow-black/40 p-10">
-                    {/* Wallet Name and Icon with Add Balance btn */}
-                    <div className="flex justify-between items-center mb-5">
-                      {/* Wallet Name and Icon */}
-                      <div className="text-2xl text-[#dcdcdc] font-bold px-3 flex items-center gap-3">
-                        <img
-                          src={walletDetails.walletIconLocation}
-                          alt=""
-                          className="h-10 w-10"
-                        />
-                        {walletDetails.walletName}
-                      </div>
-                      {showAddBalanceComponent ? (
-                        <></>
-                      ) : (
-                        <button className="h-8 w-auto bg-blue-500 text-white px-3 rounded-xl text-sm font-medium hover:cursor-pointer hover:transition hover:duration-300 hover:scale-110"
-                        onClick={() => setShowAddBalanceComponent((prev) => !prev)}>
-                          ADD BALANCE
-                        </button>
-                      )}
+                {/* Wallet Card */}
+                <div className="h-auto min-w-[1000px] rounded-2xl backdrop-blur-xl border border-blue-400/30 shadow-lg shadow-black/40 p-10">
+                  {/* Wallet Name and Icon with Add Balance btn */}
+                  <div className="flex justify-between items-center mb-5">
+                    {/* Wallet Name and Icon */}
+                    <div className="text-2xl text-[#dcdcdc] font-bold px-3 flex items-center gap-3">
+                      <img src={walletDetails.walletIconLocation} alt="" className="h-10 w-10" />
+                      {walletDetails.walletName}
                     </div>
+                    {selectedComponent !== walletDetails.privateKey && (
+                      <button
+                        className="h-8 w-auto bg-blue-500 text-white px-3 rounded-xl text-sm font-medium transition duration-300 transform hover:scale-110 cursor-pointer"
+                        onClick={() => {
+                          setSelectedComponent(walletDetails.privateKey);
+                        }}
+                      >
+                        ADD BALANCE
+                      </button>
+                    )}
+                  </div>
 
-                    <div className="flex flex-col gap-5">
-                      {/* Wallet Balance */}
-                      <WalletBalance walletDetails={walletDetails} />
+                  <div className="flex flex-col gap-5">
+                    {/* Wallet Balance */}
+                    <WalletBalance walletDetails={walletDetails} />
 
-                      {/* Wallet Credentials */}
-                      <WalletCredentials
-                        walletDetails={walletDetails}
-                        showAddBalanceComponent={showAddBalanceComponent}
-                        setShowAddBalanceComponent={setShowAddBalanceComponent}
-                      />
-                    </div>
+                    {/* Wallet Credentials */}
+                    <WalletCredentials
+                      walletDetails={walletDetails}
+                      selectedComponent={selectedComponent}
+                    />
                   </div>
                 </div>
-              )
-            )
+              </div>
+            ))
         )}
       </div>
     </div>
@@ -189,15 +168,9 @@ const WalletBalance = ({ walletDetails }: { walletDetails: Wallet }) => {
   return (
     <div className="h-36 bg-blue-600 rounded-2xl text-[#dcdcdc] flex flex-col justify-center items-center p-10 gap-10">
       <div>
-        <h1 className="font-medium text-md text-[#ebebebcc] text-center">
-          Total Balance
-        </h1>
-        <h1 className="font-bold text-4xl text-white text-center font-poppins">
-          {walletDetails.amount}
-        </h1>
-        <h1 className="font-medium text-lg text-[#ebebebcc] text-center">
-          =$23456
-        </h1>
+        <h1 className="font-medium text-md text-[#ebebebcc] text-center">Total Balance</h1>
+        <h1 className="font-bold text-4xl text-white text-center font-poppins">{walletDetails.amount}</h1>
+        <h1 className="font-medium text-lg text-[#ebebebcc] text-center">=$23456</h1>
       </div>
     </div>
   );
@@ -205,50 +178,35 @@ const WalletBalance = ({ walletDetails }: { walletDetails: Wallet }) => {
 
 const WalletCredentials = ({
   walletDetails,
-  showAddBalanceComponent,
-  setShowAddBalanceComponent,
+  selectedComponent,
 }: {
   walletDetails: Wallet;
-  showAddBalanceComponent: boolean;
-  setShowAddBalanceComponent: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedComponent: string;
 }) => {
   const handleOnClickAddBalanceBtn = async () => {
     const connection = new Connection(clusterApiUrl("devnet"));
     const publicKey = new PublicKey(walletDetails.publicKey);
-    const airDropSignature = await connection.requestAirdrop(
-      publicKey,
-      1 * LAMPORTS_PER_SOL
-    );
+    const airDropSignature = await connection.requestAirdrop(publicKey, 1 * LAMPORTS_PER_SOL);
     await connection.confirmTransaction(
       {
         signature: airDropSignature,
         // "lastValidBlockHeight" + "blockhash" come from getLatestBlockhash
         blockhash: (await connection.getLatestBlockhash()).blockhash,
-        lastValidBlockHeight: (
-          await connection.getLatestBlockhash()
-        ).lastValidBlockHeight,
+        lastValidBlockHeight: (await connection.getLatestBlockhash()).lastValidBlockHeight,
       },
       "confirmed"
     );
 
-    setShowAddBalanceComponent(false);
   };
-  return showAddBalanceComponent ? (
+  return (selectedComponent === walletDetails.privateKey) ? (
     <div className="h-auto border border-blue-400/30 rounded-2xl text-[#dcdcdc] bg-blue-500/15 flex flex-col justify-center p-10 gap-10">
-      <h1 className="font-medium text-xl font-poppins text-white/80">
-        Add Balance
-      </h1>
+      <h1 className="font-medium text-xl font-poppins text-white/80">Add Balance</h1>
       <div className="flex flex-col gap-4">
         <div>
           <div className="flex justify-between px-1">
-            <h1 className="text-sm text-white/80 mb-2">
-              Enter the amount you want to add:
-            </h1>
+            <h1 className="text-sm text-white/80 mb-2">Enter the amount you want to add:</h1>
           </div>
-          <input
-            type="text"
-            className="text-md text-[#ebebebcc] p-2 px-4 rounded-[10px] bg-[#06122c] font-roboto focus:outline-0 w-full"
-          />
+          <input type="text" className="text-md text-[#ebebebcc] p-2 px-4 rounded-[10px] bg-[#06122c] font-roboto focus:outline-0 w-full" />
         </div>
 
         <button
@@ -261,9 +219,7 @@ const WalletCredentials = ({
     </div>
   ) : (
     <div className="h-auto border border-blue-400/30 rounded-2xl text-[#dcdcdc] bg-blue-500/15 flex flex-col justify-center p-10 gap-10">
-      <h1 className="font-medium text-xl font-poppins text-white/80">
-        Wallet Credentials
-      </h1>
+      <h1 className="font-medium text-xl font-poppins text-white/80">Wallet Credentials</h1>
       <div className="flex flex-col gap-4">
         {/* Public Key */}
         <div>
@@ -271,9 +227,7 @@ const WalletCredentials = ({
             <h1 className="text-sm text-white/80 mb-2">PUBLIC KEY</h1>
             <h1 className="text-sm text-white/80 mb-2">COPY</h1>
           </div>
-          <h1 className="text-md text-[#ebebebcc] p-2 px-4 rounded-[10px] bg-[#06122c] font-roboto">
-            {walletDetails.publicKey}
-          </h1>
+          <h1 className="text-md text-[#ebebebcc] p-2 px-4 rounded-[10px] bg-[#06122c] font-roboto">{walletDetails.publicKey}</h1>
         </div>
 
         {/* Private Key */}
@@ -282,9 +236,7 @@ const WalletCredentials = ({
             <h1 className="text-sm text-white/80 mb-2">PRIVATE KEY</h1>
             <h1 className="text-sm text-white/80 mb-2">COPY</h1>
           </div>
-          <h1 className="text-md text-[#ebebebcc] p-2 px-4 rounded-[10px] bg-[#06122c] font-roboto">
-            {walletDetails.privateKey}
-          </h1>
+          <h1 className="text-md text-[#ebebebcc] p-2 px-4 rounded-[10px] bg-[#06122c] font-roboto">{walletDetails.privateKey}</h1>
         </div>
       </div>
     </div>
