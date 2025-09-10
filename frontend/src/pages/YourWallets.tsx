@@ -2,9 +2,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAccountStore, useCurrentIndexStore, useTotalTokenStore, type Account, type Wallet } from "../zustand/store";
 import { generateSolanaWallet } from "../lib/generateSolanaWallet";
 import { generateEthereumWallet } from "../lib/generateEthereumWallet";
-import React, { useEffect, useState } from "react";
-import { clusterApiUrl, Connection, LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction } from "@solana/web3.js";
-
+import { useState } from "react";
+import { Connection, Keypair, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import axios from "axios";
 /**
  * Renders the YourWallets component to view and add accounts.
  * Handles wallet creation logic and navigation.
@@ -148,10 +148,7 @@ const YourWallets = () => {
                     <WalletBalance walletDetails={walletDetails} />
 
                     {/* Wallet Credentials */}
-                    <WalletCredentials
-                      walletDetails={walletDetails}
-                      selectedComponent={selectedComponent}
-                    />
+                    <WalletCredentials walletDetails={walletDetails} selectedComponent={selectedComponent} />
                   </div>
                 </div>
               </div>
@@ -176,29 +173,26 @@ const WalletBalance = ({ walletDetails }: { walletDetails: Wallet }) => {
   );
 };
 
-const WalletCredentials = ({
-  walletDetails,
-  selectedComponent,
-}: {
-  walletDetails: Wallet;
-  selectedComponent: string;
-}) => {
+const WalletCredentials = ({ walletDetails, selectedComponent }: { walletDetails: Wallet; selectedComponent: string }) => {
   const handleOnClickAddBalanceBtn = async () => {
-    const connection = new Connection(clusterApiUrl("devnet"));
-    const publicKey = new PublicKey(walletDetails.publicKey);
-    const airDropSignature = await connection.requestAirdrop(publicKey, 1 * LAMPORTS_PER_SOL);
-    await connection.confirmTransaction(
-      {
-        signature: airDropSignature,
-        // "lastValidBlockHeight" + "blockhash" come from getLatestBlockhash
-        blockhash: (await connection.getLatestBlockhash()).blockhash,
-        lastValidBlockHeight: (await connection.getLatestBlockhash()).lastValidBlockHeight,
-      },
-      "confirmed"
-    );
+    try {
+      const connection = new Connection("https://solana-devnet.g.alchemy.com/v2/Oxa2b72y5V62cqUjH6OPo", "confirmed");
+      const publicKey = new PublicKey(walletDetails.publicKey);
+      const airdropSignature = await connection.requestAirdrop(publicKey, 1 * LAMPORTS_PER_SOL);
+      const latestBlockhash = await connection.getLatestBlockhash();
+    
+    const confirmation = await connection.confirmTransaction({
+      signature: airdropSignature,
+      blockhash: latestBlockhash.blockhash,
+      lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
+    }, "confirmed");
+    console.log(confirmation)
 
+    } catch (err) {
+      console.error("Airdrop failed:", err);
+    }
   };
-  return (selectedComponent === walletDetails.privateKey) ? (
+  return selectedComponent === walletDetails.privateKey ? (
     <div className="h-auto border border-blue-400/30 rounded-2xl text-[#dcdcdc] bg-blue-500/15 flex flex-col justify-center p-10 gap-10">
       <h1 className="font-medium text-xl font-poppins text-white/80">Add Balance</h1>
       <div className="flex flex-col gap-4">

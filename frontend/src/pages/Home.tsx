@@ -81,26 +81,26 @@ const Home = () => {
   return (
     <div className="h-full w-full">
       {component === 1 && (
-        <div className="h-full w-full z-50">
-          <div className="h-full w-full flex flex-col">
-            <div className="text-center self-end h-full pt-40">
-              <h1 className="font-poppins font-extrabold text-8xl bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent tracking-tight pt-20 drop-shadow-[0_0_10px_rgba(0,97,255,0.59)]">
+        <div className="h-full w-full z-50 overflow-y-scroll">
+          <div className="h-full w-full flex flex-col items-center justify-center gap-20">
+            <div className="text-center">
+              <h1 className="font-poppins font-extrabold text-6xl sm:text-8xl bg-gradient-to-b from-blue-400 to-blue-700 bg-clip-text text-transparent tracking-tight pt-20 drop-shadow-[0_0_10px_rgba(0,97,255,0.59)]">
                 VALORA
               </h1>
-              <p className="text-[#ebebebcc] text-md font-poppins font-light tracking-tight pt-5">
+              <p className="text-[#ebebebcc] text-[10px] sm:text-[15px] font-poppins font-light tracking-tight pt-5">
                 The most simple wallet to manage your crypto.
               </p>
             </div>
-            <div className="flex flex-col items-center self-center gap-5 h-full pt-52">
+            <div className="flex flex-col items-center self-center gap-5">
               <button
-                className="bg-blue-600 h-16 w-auto px-20 text-[#ebebebcc] rounded-2xl drop-shadow-[0_0_10px_rgba(0,97,255,0.7)] hover:cursor-pointer hover:scale-105 transition-transform duration-200"
+                className="bg-blue-600 h-12 sm:h-16 w-auto px-7 sm:px-20 text-[12px] sm:text-[16px] text-[#ebebebcc] rounded-2xl drop-shadow-[0_0_10px_rgba(0,97,255,0.7)] hover:cursor-pointer hover:scale-105 transition-transform duration-200"
                 onClick={handleOnClickCreateAWallet}
               >
                 <span>CREATE A WALLET</span>
                 <img src="" alt="" />
               </button>
               <button
-                className="bg-blue-600 h-16 w-auto px-20 text-[#ebebebcc] rounded-2xl drop-shadow-[0_0_10px_rgba(0,97,255,0.7)] hover:cursor-pointer hover:scale-105 transition-transform duration-200"
+                className="bg-blue-600 h-12 sm:h-16 sm:w-72 w-40 text-[12px] sm:text-[16px] text-[#ebebebcc] rounded-2xl drop-shadow-[0_0_10px_rgba(0,97,255,0.7)] hover:cursor-pointer hover:scale-105 transition-transform duration-200"
                 onClick={handleOnClickCreateAWallet}
               >
                 <span>IMPORT A WALLET</span>
@@ -142,9 +142,9 @@ const Home = () => {
           >
             Create A Wallet
           </button>
+          <div className="absolute h-60 w-60 bg-blue-500 rounded-full blur-[170px] left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 z-0"></div>
         </div>
       )}
-      <div className="absolute h-60 w-60 bg-blue-500 rounded-full blur-[170px] left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 z-0"></div>
       
     </div>
   );
