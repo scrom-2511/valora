@@ -112,12 +112,12 @@ const Home = () => {
       )}
       {component === 2 && (
         <div className="h-full w-full flex flex-col items-center justify-center z-50 relative">
-          <div className="text-blue-500 text-3xl p-5 pl-10 font-bold font-poppins mb-5">
+          <div className="text-blue-500 text-3xl p-5 font-bold font-poppins mb-5">
             YOUR SECRET PHASE
           </div>
-          <div className="h-[400px] w-[800px] rounded-2xl backdrop-blur-xl border border-blue-400/30 shadow-lg shadow-black/40 grid grid-cols-3 grid-rows-4 p-5">
+          <div className="h-[400px] w-[300px] xl:w-[800px] sm:h-[400px] sm:w-[600px] rounded-2xl backdrop-blur-xl border border-blue-400/30 shadow-lg shadow-black/40 grid grid-cols-3 grid-rows-4 p-5">
             {mnemonicsArr.map((mnemonic) => (
-              <h1 className="text-blue-500 self-center text-center font-medium text-l">
+              <h1 className="text-blue-500 self-center text-center font-medium text-sm sm:text-l">
                 {mnemonic}
               </h1>
             ))}
